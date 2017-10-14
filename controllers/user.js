@@ -29,11 +29,10 @@ module.exports.getUserByUserID = function(userID, callback){
 }
 
 module.exports.updateTimeLogin = function(userID){
-    var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    var sql = 'UPDATE account SET time_signin=? WHERE user_id=?';
+    var sql = 'UPDATE account SET time_signin=CURRENT_TIME() WHERE user_id=?';
     pool.getConnection(function(err, connection) {
         if(err) throw err;
-        connection.query(sql, [date,userID],function (error, results, fields) {    
+        connection.query(sql, [userID],function (error, results, fields) {    
             connection.release();
             if (error) throw error;
         });
